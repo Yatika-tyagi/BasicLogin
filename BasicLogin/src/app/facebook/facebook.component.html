@@ -3,6 +3,7 @@
 </p>
 <div class="btn-group">
 <button class="btn btn-primary" (click)="login()">Login To FaceBook</button>
+<button class="btn btn-primary" (click)="loginWithOptions()">Login To FaceBook With Options</button><br>
 <button class="btn btn-primary" (click)="logout()">Logout From FaceBook</button><br>
 </div>
 <!--<button class="btn btn-primary" (click)=getusername()>Who Is LoggedIn</button>-->
@@ -13,5 +14,14 @@
 <p>Gender:  {{Gender}}</p><br>
 <p>Number Of Freinds:  {{no_friend}}</p><br>
 <p>Email:  {{Email}}</p><br>
+<p>Total_post:  {{Feed}}</p><br>
 <p>Profile-Picture:  <img src="{{image}}"></p><br>
+
+<label>Status:</label>
+<input type="text" placeholder="Update Status" #post>
+<button class="btn btn-primary" (click)="updatepost(post.value)">Update</button>
+<!--<input type="text" #post>
+<button (click)="updatepost(post.value)">update</button>-->
+
+
 <app-page></app-page>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FacebookService,LoginResponse,LoginOptions,InitParams} from 'ngx-facebook';
 @Component({
   selector: 'app-facebook',
-  templateUrl: './facebook.component.html',
+  templateUrl:'./facebook.component.html',
   styleUrls: ['./facebook.component.css']
 })
 export class FacebookComponent implements OnInit {
@@ -11,6 +11,8 @@ export class FacebookComponent implements OnInit {
   Email='';
   Gender='';
   image='';
+  post='';
+  Feed='';
   constructor(
     private fb: FacebookService
   ) {
@@ -32,6 +34,8 @@ export class FacebookComponent implements OnInit {
          this.getProfile();
          this.getFriends();
          this.getEmail();
+         this.getFeed();
+        // this.loginWithOptions();
     })
   }
       
@@ -46,6 +50,15 @@ export class FacebookComponent implements OnInit {
 // })
 //       })
 // }
+getFeed(){
+  this.fb.api('/me/feed')
+      .then((res:any) => {
+         console.log('Total Post', res.data);
+        this.Feed=res.data.length;
+    })
+
+}
+
 
  getProfile() {
     this.fb.api('/me')
@@ -70,19 +83,19 @@ export class FacebookComponent implements OnInit {
       
   }
 
-  // loginWithOptions() {
+  loginWithOptions() {
 
-  //   const loginOptions: LoginOptions = {
-  //     enable_profile_selector: true,
-  //     return_scopes: true,
-  //     scope: 'public_profile,user_friends,email,pages_show_list'
-  //   };
+    const loginOptions: LoginOptions = {
+      enable_profile_selector: true,
+      return_scopes: true,
+      scope: 'publish_actions,public_profile,user_friends,email,pages_show_list,user_posts'
+    };
 
-  //   this.fb.login(loginOptions)
-  //     .then((res: LoginResponse) => {
-  //       console.log('Logged in', res);
-  //     })
-  // }
+    this.fb.login(loginOptions)
+      .then((res: LoginResponse) => {
+        console.log('Logged in', res);
+      })
+  }
   ngOnInit() {
   }
 
@@ -96,16 +109,23 @@ export class FacebookComponent implements OnInit {
       })
   }
 
-//   getImage(){
-//   this.fb.api('/me'+'/?access_token=')
-//       .then((res: any) => {
-//         // console.log('Got the users profile', res);
-//         this.image=res.name;
-//       })
-      
-// }
+   updatepost(post){
+     this.fb.api('/me/feed','post',
+     {message:"this is a test message"},
+   )
+   .then((res: any) => {
+        console.log('post is',res);
+  alert('Status '+ post + '  updated succesfully');
+      })
+ // console.log('post is',post);
+  alert('Status '+ post + '  updated succesfully');
+}
+
 logout(){
 this.fb.logout();
 console.log("logged out");
+alert("Your account have been Logged Out");
 }
+//  <fb-post href="https://www.facebook.com/20531316728/posts/10154009990506729/"></fb-post>
+
 }
